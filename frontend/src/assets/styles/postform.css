@@ -1,0 +1,511 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+
+/* Navbar */
+.navbar-container {
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #dbdbdb;
+  height: 80px;
+  border: 2px solid #dbdbdb;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 975px;
+  padding: 10px 20px;
+  margin: 10px auto;
+}
+
+.navbar-left .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #262626;
+}
+
+.navbar-center .search-bar {
+  padding: 8px 12px;
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  background-color: #ededed;
+  width: 300px;
+  height: 25px;
+  color: black;
+}
+
+/* Main Layout */
+.home {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px; /* Adjusted for navbar */
+}
+
+/* Main Content */
+.main-content {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 975px;
+  margin-top: 80px;
+}
+
+/* Feed Styling */
+.feed {
+  flex: 2;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Post Styling */
+.post {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 25px;
+  color: black;
+  box-shadow: #959292 1px 2px 10px;
+  margin-left: 400px;
+}
+
+/* Navbar Right Buttons */
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.login-button,
+.logout-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button {
+  background-color: #0095f6;
+  color: #fff;
+}
+
+.login-button:hover {
+  background-color: #0077cc;
+}
+
+.logout-button {
+  background-color: #efefef;
+  color: #262626;
+}
+
+.logout-button:hover {
+  background-color: #dbdbdb;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px; /* Increased width */
+  padding: 20px;
+  background-color: #fff;
+  border-right: 1px solid #dbdbdb;
+  position: fixed;
+  left: 0;
+  top: 80px; /* Adjusted for navbar */
+  height: calc(100vh - 80px); /* Full height minus navbar */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000; /* Ensure sidebar is above content */
+  color: black;
+}
+
+.sidebar-option {
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-option:hover {
+  background-color: #efefef;
+}
+
+.sidebar-option.active {
+  background-color: #0095f6;
+  color: #fff;
+}
+
+.sidebar-option.active:hover {
+  background-color: #0077cc;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-button {
+  position: fixed;
+  left: 300px; /* Default position: right edge of the sidebar */
+  top: 100px; /* Adjust position */
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Ensure it's above the sidebar */
+  transition: left 0.3s ease;
+  color: black;
+}
+
+.sidebar-toggle-button.left-edge {
+  left: 0; /* Move to the left edge when sidebar is hidden */
+}
+
+.sidebar-toggle-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  margin-left: 300px; /* Match sidebar width */
+  transition: margin-left 0.3s ease;
+}
+
+.content-wrapper.expanded {
+  margin-left: 0; /* No margin when sidebar is closed */
+}
+
+/* Adjust Main Content to accommodate Sidebar */
+.main-content {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 80px;
+  margin-right: 250px;
+  /* Adjusted for sidebar */
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: 220px; /* Adjusted for sidebar */
+}
+
+/* Feed Styling */
+.feed {
+  flex: 2;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Event Container */
+.event-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.event-container h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #262626;
+}
+
+/* Event List */
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Event Card */
+.event-card {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.event-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.event-card h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #0095f6;
+}
+
+.event-card p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #262626;
+}
+
+.event-card p strong {
+  color: #555;
+}
+
+/* Rent Container */
+.rent-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rent-container h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #262626;
+}
+
+/* Car List */
+.car-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Car Card */
+.car-card {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.car-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.car-card h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #0095f6;
+}
+
+.car-card p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #262626;
+}
+
+.car-card p strong {
+  color: #555;
+}
+
+/* Event Details Page */
+.event-details-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.event-details-container h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #262626;
+}
+
+.event-details-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.event-details-container p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #262626;
+}
+
+.event-details-container p strong {
+  color: #555;
+}
+
+.back-button {
+  background-color: #0095f6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background-color: #0077cc;
+}
+
+/* Car Details Page */
+.car-details-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.car-details-container h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #262626;
+}
+
+.car-details-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.car-details-container p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #262626;
+}
+
+.car-details-container p strong {
+  color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    width: 250px;
+  }
+
+  .sidebar-toggle-button {
+    left: 250px;
+  }
+
+  .post {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-center .search-bar {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar-toggle-button {
+    left: 200px;
+  }
+
+  .feed {
+    max-width: 100%;
+  }
+
+  .post {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .event-card,
+  .car-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 150px;
+  }
+
+  .sidebar-toggle-button {
+    left: 150px;
+  }
+
+  .event-details-container,
+  .car-details-container {
+    padding: 10px;
+  }
+
+  .event-details-image,
+  .car-details-image {
+    height: 200px;
+  }
+
+  .event-details-container h1,
+  .car-details-container h1 {
+    font-size: 24px;
+  }
+
+  .event-details-container p,
+  .car-details-container p {
+    font-size: 14px;
+  }
+}
