@@ -6,40 +6,15 @@ import Rent from './Rent.jsx';
 import '../assets/styles/postform.css';
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('Post'); // Default to 'Post'
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar visibility state
-
-  const posts = [
-    {
-      id: 1,
-      username: 'user1',
-      profilePic: 'https://picsum.photos/50',
-      imageUrl: 'https://picsum.photos/600/400',
-      caption: 'This is a sample post!',
-      likes: 123,
-    },
-    {
-      id: 2,
-      username: 'user2',
-      profilePic: 'https://picsum.photos/50',
-      imageUrl: 'https://picsum.photos/600/400',
-      caption: 'Another post here!',
-      likes: 456,
-    },
-    {
-      id: 3,
-      username: 'user3',
-      profilePic: 'https://picsum.photos/50',
-      imageUrl: 'https://picsum.photos/600/400',
-      caption: 'Yet another post!',
-      likes: 789,
-    },
-  ];
+  const [activeTab, setActiveTab] = useState('Post'); 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+  const [isLoginOpen, setIsLoginOpen] = useState(false); 
 
   return (
     <div className="home">
-      <Navbar />
-      <div className="main-content">
+      <Navbar onLoginClick={() => setIsLoginOpen(true)} />
+      
+      <div className={`main-content ${isLoginOpen ? 'blur-background' : ''}`}>
         {/* Sidebar Toggle Button */}
         <button
           className={`sidebar-toggle-button ${!isSidebarOpen ? 'left-edge' : ''}`}
@@ -51,22 +26,13 @@ const Home = () => {
         {/* Sidebar */}
         {isSidebarOpen && (
           <div className="sidebar">
-            <div
-              className={`sidebar-option ${activeTab === 'Post' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Post')}
-            >
+            <div className={`sidebar-option ${activeTab === 'Post' ? 'active' : ''}`} onClick={() => setActiveTab('Post')}>
               <span>Post</span>
             </div>
-            <div
-              className={`sidebar-option ${activeTab === 'Events' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Events')}
-            >
+            <div className={`sidebar-option ${activeTab === 'Events' ? 'active' : ''}`} onClick={() => setActiveTab('Events')}>
               <span>Events</span>
             </div>
-            <div
-              className={`sidebar-option ${activeTab === 'Rent' ? 'active' : ''}`}
-              onClick={() => setActiveTab('Rent')}
-            >
+            <div className={`sidebar-option ${activeTab === 'Rent' ? 'active' : ''}`} onClick={() => setActiveTab('Rent')}>
               <span>Rent</span>
             </div>
           </div>
@@ -76,22 +42,16 @@ const Home = () => {
         <div className={`content-wrapper ${!isSidebarOpen ? 'expanded' : ''}`}>
           {activeTab === 'Post' && (
             <div className="feed">
-              {posts.map((post) => (
-                <Postform
-                  key={post.id}
-                  username={post.username}
-                  profilePic={post.profilePic}
-                  imageUrl={post.imageUrl}
-                  caption={post.caption}
-                  likes={post.likes}
-                />
-              ))}
+              <Postform username="user1" profilePic="https://picsum.photos/50" imageUrl="https://picsum.photos/600/400" caption="Sample post!" likes={123} />
             </div>
           )}
           {activeTab === 'Events' && <Event />}
           {activeTab === 'Rent' && <Rent />}
         </div>
       </div>
+
+      {/* Login Popup (Ensure this is rendered above everything) */}
+      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
     </div>
   );
 };

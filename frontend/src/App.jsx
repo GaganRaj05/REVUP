@@ -1,18 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/home';
 import EventDetails from './pages/Eventdetails';
 import CarDetails from './pages/CarDetails';
+import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+
+const Router = createBrowserRouter([
+  {
+    path:"/",
+    element:<Home/>
+  },
+  {
+    path:"/event/:eventId",
+    element:<EventDetails/>
+  },
+  {
+    path:"/rent/:catId",
+    element:<CarDetails/>
+  }
+])
+
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/event/:eventId" element={<EventDetails />} />
-        <Route path="/rent/:carId" element={<CarDetails />} />
-      </Routes>
-    </Router>
+    <RouterProvider router = {Router} />
   );
 };
 
