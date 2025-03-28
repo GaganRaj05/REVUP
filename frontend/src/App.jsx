@@ -1,8 +1,9 @@
 import React from 'react';
-import Home from './components/home';
+import Home from './components/Home';
 import EventDetails from './pages/Eventdetails';
 import CarDetails from './pages/CarDetails';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+import UploadVehicle from './pages/UploadVehicle';
 
 const Router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const Router = createBrowserRouter([
   {
     path:"/rent/:catId",
     element:<CarDetails/>
+  },
+  {
+    path:"/upload-vehicle",
+    element:<UploadVehicle/>
   }
 ])
 

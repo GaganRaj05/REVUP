@@ -3,13 +3,14 @@ const Vehicle = require("../models/Vehicles")
 async function uploadVehicle(req, res) {
     try {
         const user_id = req.user_id;
-        const {image,description,price,contact_info,address} = req.body;
+        const {model_name,description,price,contact_info,address} = req.body;
 
-        const imageArray = Array.isArray(image) ? image:[image];
-
+        const imagePath = req.file ? req.file.path.replace(/\\/g, "/").replace(/^uploads\//, "") : null;
+        console.log("working")
         await Vehicle.create({
             user:user_id,
-            image:imageArray,
+            model_name:model_name,
+            image:imagePath,
             description:description,
             price:price,
             contact_info:contact_info,
@@ -23,15 +24,20 @@ async function uploadVehicle(req, res) {
     }
 }
 
-async function getRentalVehicles(req,res) {
+const getRentalVehicles = async (req, res) => {
     try {
-        const result = await Vehicle.find();
-        return res.status(201).json(result);
-    }
-    catch(err) {
+        const vehicles = await Vehicle.find();
+
+        const formattedVehicles = vehicles.map(vehicle => ({
+            ...vehicle._doc,
+            image: `${req.protocol}://${req.get("host")}/uploads/${vehicle.image}`
+        }));
+
+        return res.status(200).json(formattedVehicles);
+    } catch (err) {
         console.log(err.message);
-        return res.status(501).json("Some error occured please try again later");
+        return res.status(500).json({ error: "Some error occurred, please try again later" });
     }
-}
+};
 
 module.exports = {uploadVehicle,getRentalVehicles};

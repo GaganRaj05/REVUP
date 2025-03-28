@@ -1,0 +1,54 @@
+.vehicle-upload-main-content {
+    width:80vw;
+    height: 95vh;
+    display: flex;
+}
+.vehicle-upload-main-content div {
+    width: 50%;
+    height: 100%;
+
+}
+.some-thing-funny img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.vehicle-form form {
+    display: flex;
+    flex-direction: column;
+}
+.vehicle-form form input {
+    color:black;
+    height: 35px;
+    border-radius: 8px;
+    width: 550px;
+    margin-left: 30px;
+    background-color: white;
+    border: 1px solid rgb(86, 80, 70);
+}
+.vehicle-form form textarea {
+    width: 550px;
+    height: 100px;
+    margin-left: 30px;
+    border-radius: 8px;
+    background-color: white;
+    color:black
+}
+.vehicle-form form label {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.vehicle-form form button {
+    height: 50px;
+    width: 550px;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.vehicle-form form input::placeholder {
+    padding-left: 15px;
+}
+.vehicle-form form textarea::placeholder {
+    padding-left: 10px;
+    padding-top: 15px;
+}

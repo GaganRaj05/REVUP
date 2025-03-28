@@ -21,6 +21,8 @@ async function handleLogin(req, res) {
             sameSite:"lax",
             path:"/"
         });
+        console.log("Cookie Set:", res.getHeaders()["set-cookie"]);
+
         return res.status(201).json("login successfull");
 
     }

@@ -4,10 +4,12 @@ import Login from "./login";
 import "../assets/styles/login.css"
 import {Logout} from "../services/auth"
 import Registration from './registration';
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegisterPopUp,setIsRegisterPopUp] = useState(false);
+  const navigate = useNavigate();
   const handleLogoutClick = async(e)=> {
     e.preventDefault();
     const response = await Logout();
@@ -32,10 +34,10 @@ const Navbar = () => {
         <div className="navbar-right">
 
         <div className='register'>
-          <a href="">Add event</a>
+          <a href="" onClick={()=>{navigate("/upload-vehicle")}}>Add vehicle</a>
         </div>
         <div className='register'>
-          <a href="">Add vehicle</a>
+          <a href="">Add event</a>
         </div>
         <div className='register'>
           <a href="">Post something</a>
@@ -51,7 +53,6 @@ const Navbar = () => {
         </div>
       </nav>
       {isRegisterPopUp && <Registration onClose={()=>setIsRegisterPopUp(false)} popupL={()=>{setIsRegisterPopUp(false);setIsLoginOpen(true)}}  />}
-      {/* Show the Login popup when isLoginOpen is true */}
       {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} onLogin = {()=>setIsLoggedIn(true)} popupR={()=>{setIsLoginOpen(false);setIsRegisterPopUp(true)}} />}
     </div>
   );

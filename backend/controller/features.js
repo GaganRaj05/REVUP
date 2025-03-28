@@ -5,7 +5,7 @@ async function handlePostUploads(req, res) {
         const user_id = req.user_id;
         const {image,caption} = req.body;
         console.log(image,caption)
-
+        
         const imagesArray = Array.isArray(image) ? image : [image];
         console.log(imagesArray)
         await Posts.create({
@@ -24,8 +24,8 @@ async function handlePostUploads(req, res) {
 
 async function handleGettingPosts(req, res) {
     try {
-        const result = await Posts.find();
-        return res.status(201).json({result});
+        const result = await Posts.find().populate({path:"user_id",select:"name"});
+        return res.status(201).json(result);
     }
     catch(err) {
         console.log(err.message);

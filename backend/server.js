@@ -7,16 +7,25 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth")
 const featureRoutes = require("./routes/features");
 const cors = require('cors');
+const path = require('path');
 const app = express()
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(helmet())
 app.use(morgan("dev"))
 app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
-}))
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Authorization"
+}));
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
+    setHeaders: (res) => {
+        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); // ✅ Fix for image loading
+    }
+}));
 
 app.use("/app/auth",authRoutes);
 app.use("/app/features",featureRoutes);

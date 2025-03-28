@@ -5,6 +5,8 @@ import Event from './Event.jsx';
 import Rent from './Rent.jsx';
 import '../assets/styles/postform.css';
 
+
+
 const Home = () => {
   const [activeTab, setActiveTab] = useState('Post'); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
@@ -42,7 +44,7 @@ const Home = () => {
         <div className={`content-wrapper ${!isSidebarOpen ? 'expanded' : ''}`}>
           {activeTab === 'Post' && (
             <div className="feed">
-              <Postform username="user1" profilePic="https://picsum.photos/50" imageUrl="https://picsum.photos/600/400" caption="Sample post!" likes={123} />
+              <Postform />
             </div>
           )}
           {activeTab === 'Events' && <Event />}

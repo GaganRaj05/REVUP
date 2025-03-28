@@ -6,7 +6,8 @@ async function login(formData) {
         const response = await fetch(`${BACKEND_URL}/app/auth/login`,{
             method:"POST",
             headers:{"Content-type":"application/json"},
-            body:JSON.stringify(formData)
+            body:JSON.stringify(formData),
+            credentials:'include'
         })
         const data = await response.json();
         if(!response.ok) return {error:data};
