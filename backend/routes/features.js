@@ -7,12 +7,12 @@ const {getEvents, uploadEvent} = require("../controller/eventFeature")
 
 const router = express.Router()
 
-router.post("/upload-post",checkAuth,handlePostUploads);
+router.post("/upload-post",checkAuth,upload.array("image",5),handlePostUploads);
 router.get("/posts",handleGettingPosts);
-router.post("/post-like",checkAuth,handlePostLike);
-router.post("/upload-vehicle",checkAuth,upload.single("image"),uploadVehicle);
+router.patch("/post-like",checkAuth,handlePostLike);
+router.post("/upload-vehicle",checkAuth,upload.array("image",5),uploadVehicle);
 router.get("/vehicles",getRentalVehicles);
-router.post("/upload-event",checkAuth,uploadEvent);
+router.post("/upload-event",checkAuth,upload.array("image",5),uploadEvent);
 router.get("/events",getEvents);
 
 module.exports = router

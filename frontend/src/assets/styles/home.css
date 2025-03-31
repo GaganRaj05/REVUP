@@ -9,7 +9,7 @@ body, * {
 }
 .nav-bar-container {
     width: 100%;
-    height: 70px;
+    height: 60px;
 }
 .nav-bar-container nav  li {
     list-style: none;
@@ -26,8 +26,8 @@ body, * {
 }
 
 .logo {
-    width: 150px;
-    height: 50px;
+    width: 140px;
+    height: 40px;
     margin-left: 25px;
 }
 .search-icon {
@@ -39,7 +39,7 @@ body, * {
     display: flex;
     align-items: center;
     height: 40px;
-    width: 550px;
+    width: 540px;
     border-radius: 25px;
     border: 1px solid white;
 
@@ -47,12 +47,12 @@ body, * {
 .search-form input{
     background-color:#0d1114 ;
     border: 0px;
-    width: 82%;
+    width: 84%;
     margin-left: 15px;
-    height: 36px; 
+    height: 26px; 
     color: white;   
     caret-color: white;
-    font-size: 30px;
+    font-size: 20px;
     font-family: "Bytesized", sans-serif;
 
 }
@@ -67,12 +67,12 @@ body, * {
 }
 .login-btn {
     width: 150px;
-    height: 50px;
+    height: 40px;
     border-radius: 8px;
     color: white;
     border: 0px;
     background-color: #0d1114;
-    font-size: 32px;
+    font-size: 28px;
     font-family: "Bytesized", sans-serif;
     margin-left: 250px;
 }
@@ -90,6 +90,7 @@ body, * {
     align-items: center;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
+    z-index: 9999;
   }
   
   .modal-content {
@@ -191,4 +192,277 @@ a:hover {
 
 .err-message {
   color: red;
+}
+.login-btn:hover {
+  background-color: #2a3235;
+}
+
+.side-bar-container {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px;
+  height: calc(100vh - 75px);
+  margin-top: 15px;
+  border-right: 2px solid #373b3e;
+  background-color: #0d1114;
+  transition: width 0.3s ease;
+}
+
+.side-bar-container.collapsed {
+  width: 40px;
+  margin-right: 200px;
+}
+
+.side-bar-controls button {
+  width: 85%;
+  height: 50px;
+  margin-left: 10px;
+  font-family: "Bytesized", sans-serif;
+  background-color: #0d1114;
+  border: 0;
+  color: white;
+  font-size: 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.side-bar-controls button:hover {
+  background-color: #2a3235;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  right: -15px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  background-color: #1f2427;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 30px;
+  height: 50px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #2a3235;
+}
+.side-bar-settings-container {
+  display: flex;
+  flex-direction: column;
+}
+.side-bar-controls-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+#side-bar-controls-btn1 {
+  margin-top: 15px;
+}
+.home-content {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+.community-container {
+  position:sticky;
+  margin-top: 15px;
+  width: 450px;
+  height: calc(100vh-60px);
+}
+.community-display-box {
+  background-color: #000000;
+  color: white;
+  font-family: "Bytesized", sans-serif;
+  height: auto;
+  width: 310px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  
+}
+.community-display-box p {
+  padding: 10px;
+  font-size: 20px;
+}
+.community-display-box-btn  {
+  margin: 0 15px 0 15px;
+  width: 275px;
+  min-height: 40px;
+  max-height: 40px;
+  background-color: #000000;
+  border: 0;
+}
+#see-more-btn {
+  background-color: #000000;
+  border: 0;
+  color: white;
+  width: 100px;
+  height: 30px;
+  font-family: "Bytesized", sans-serif;
+  font-size: 20px;
+  border-radius: 25px;
+  margin:5px 15px 10px 15px;
+}
+
+.community-display-box-btn:hover {
+  background-color: #2a3235;
+}
+
+#see-more-btn:hover {
+  background-color: #1f2427;
+}
+.Content-section {
+  flex-grow: 1;
+  overflow-y:auto;
+  padding-right: 10px;
+  width: 800px;
+  height: auto;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scrollbar-width: none;  
+  -ms-overflow-style: none; 
+
+}
+.Content-section::-webkit-scrollbar {
+  display: none;
+}
+
+.post-cards {
+  height: auto;
+  width: 700px;
+  margin-top: 40px;
+  border-top: 2px solid #1f2427;
+
+}
+.post-user {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Bytesized", sans-serif;
+  color: white;
+}
+.post-follow  {
+  padding-right: 15px;
+}
+.post-follow button {
+  border: 0;
+  background-color: #125bca;
+  border-radius: 25px;
+  width: 50px;
+  color: white;
+  margin-top: 5px;
+  font-family: "Bytesized","sans-serif";
+}
+.post-username {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.user-logo-container {
+  height: 30px;
+  width: 50px;
+  margin-right: 5px;
+}
+.user-logo-container img {
+  height: 30px;
+  width: 40px;
+  border-radius: 70px;
+  border: 1px solid #6a818f;
+  object-fit: cover;
+}
+.post-username p {
+  color: #6a818f;
+  font-size: 20px;
+}
+.post-caption {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 100%;
+  height: auto;
+}
+.post-caption p {
+  padding-top: 10px;
+  padding-left: 10px;
+  font-family: "Bytesized","sans-serif";
+  font-size: 30px;
+  color: white;
+}
+
+.post-image {
+  width: 100%;
+  height: 500px;
+  border-radius: 8px;
+}
+.post-image img {
+  width: 700px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 8px;  
+}
+.post-controls {
+  margin-top: 10px;
+  height: 30px;
+  padding-top: 10px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
+.post-like-btns {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  width: 120px;
+  background-color: #373b3e;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+.post-like-btns button {
+  background-color: #373b3e;
+  border: 0;
+  width: 30px;
+  height: 25px;
+  border-radius: 2px;
+  color: white;
+  font-size: 20px;
+}
+.post-like-btns p {
+  background-color: #373b3e;
+  color: white;
+  width: 35px;
+  text-align: center;
+  border-radius: 2px;
+  padding-top: 2px;
+  font-size: 18px;
+  font-family: "Bytesized",sans-serif;
+}
+.post-like-btns button:active {
+  background-color: #1f2427;
+}
+
+.share-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  height: 30px;
+  width: 120px;
+  font-size: 20px;
+  border-radius: 25px;
+  gap: 5px;
+  font-family: "Bytesized","sans-serif";
+  background-color: #373b3e;
+  color: white;
+  border: 0px;
+}
+.post-cards:hover {
+  background-color:#000000;
 }

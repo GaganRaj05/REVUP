@@ -23,7 +23,7 @@ app.use(cors({
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
     setHeaders: (res) => {
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); // ✅ Fix for image loading
+        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); 
     }
 }));
 

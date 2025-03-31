@@ -34,28 +34,31 @@ async function handleLogin(req, res) {
 async function handleRegistration(req, res) {
     try {
         const {name,phone,email,password } = req.body;
-
+        console.log(password)
         const phoneExists = await User.findOne({phone_number:phone});
         if(phoneExists) return res.status(401).json("User exists with the given phone number, choose another number");
         
         const emailExists = await User.findOne({email_id:email})
         if(emailExists) return res.status(401).json("user exists with this email please choose another email");
 
+        const nameExists = await User.findOne({name:name});
+        if(nameExists) return res.status(401).json("Username taken please choose another username");
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt);
-
+        const imagePath = req.file? req.file.path.replace(/\\/g,"/").replace(/^uploads\//,""):"default.jpg";
         await User.create({
             name:name,
             phone_number:phone,
             email_id:email,
-            password:hashedPassword
+            password:hashedPassword,
+            image:imagePath
         })
 
         return res.status(201).json("account created successfully")
 
     }
     catch(err) {
-        console.log(err.message);
+        console.log(err);
         return res.status(501).json("Internal server error");
     }
 }

@@ -3,14 +3,14 @@ const Events = require("../models/Events");
 async function uploadEvent(req,res) {
     try {
         const user_id = req.user_id;
-        const {name,image,event_type,description,venue, date,location,time} = req.body;
+        const {name,event_type,description,venue, date,location,time} = req.body;
 
-        const imageArray = Array.isArray(image) ? image:[image];
+        const imagePaths = req.files ? req.files.map(file => file.path.replace(/\\/g, "/").replace(/^uploads\//, "")) : [];
 
         await Events.create({
             user:user_id,
             name:name,
-            image:imageArray,
+            image:imagePaths,
             event_type:event_type,
             description:description,
             venue:venue,
@@ -29,7 +29,11 @@ async function uploadEvent(req,res) {
 async function getEvents(req, res) {
     try {
         const result = await Events.find();
-        return res.status(201).json(result);
+        const formattedResults  = result.map(event=> ({
+            ...event._doc,
+            image:event.image.map(img=>`${req.protocol}://${req.get("host")}/upload/${img}`)
+        }));
+        return res.status(201).json(formattedResults);
     }
     catch(err) {
         console.log(err.message);
