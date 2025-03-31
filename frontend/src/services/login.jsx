@@ -1,11 +1,10 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-async function Like_Click (post_id) {
-    try {
-        const response = await fetch(`${BACKEND_URL}/app/features/post-like`,{
+async function Login_Service(formData) {
+    try {   
+        const response = await fetch(`${BACKEND_URL}/auth/login`, {
             method:"POST",
             headers:{"Content-type":"application/json"},
-            body:JSON.stringify(post_id),
+            body:JSON.stringify(formData),
             credentials:"include"
         })
         const data = await response.json();
@@ -17,4 +16,4 @@ async function Like_Click (post_id) {
         return {error:err.message};
     }
 }
-export default Like_Click;
+export default Login_Service;

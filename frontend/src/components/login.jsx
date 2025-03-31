@@ -1,44 +1,54 @@
-import { useState } from "react";
-import {login} from "../services/auth";
-function Login({ onClose, onLogin,popupR }) {
-    const [formData, setFormData] = useState({ email: "", password: "" });
-    const [error,setError] = useState('')
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+import { useEffect, useState } from "react";
+import Login_Service from "../services/login";
+function Login({onClose}) {
+    const [formData, setFormData] = useState({email:"",password:""});
+    const [error, setError] = useState("");
+    const [isLoading,setIsLoading] = useState(false);
+    
+    const handleChange = (e)=> {
+        setError("");
+        setFormData({...formData,[e.target.name]:e.target.value});
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await login(formData)
+    const handleSubmit = async(e)=> {
         
-        if(response.error ) {
+    
+        setIsLoading(true)
+        setError("");
+        e.preventDefault();
+        const response = await Login_Service(formData);
+        if(response) {
+            setIsLoading(false);
+        }
+        if(response.error) {
+            if(response.error === "Failed to fetch") {
+                setError("Some error occured please try again later");
+                return;
+            }
             setError(response.error);
             return;
         }
-        alert("Login successfull");
         onClose();
-        onLogin();
-        console.log("submitted", formData);
-    };
+        alert("successfull")
+    }
 
     return (
-        <div className="popup-overlay">
-            <div className="popup-content">
-                <button className="close-btn" onClick={onClose}>X</button>
-                
-                <form onSubmit={handleSubmit} method="POST">
-                    {error && (<p style={{color:"red"}}>{error}</p>)}
-                    <h3>Login</h3>
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="text" name="email" placeholder="Enter your email" onChange={handleChange} value={formData.email} required />
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" name="password" placeholder="Enter your password" onChange={handleChange} value={formData.password} required />
-                    <button id="loginBtn" type="submit">Submit</button>
-                    <p style={{fontSize:"15px"}}>Not a user yet? <a href="" onClick={(e)=>{e.preventDefault();popupR();}}>Register</a> </p>
-                </form>
-            </div>
+        <div className="modal" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="close-btn" onClick={onClose}>&times;</button>
+          <h2 className="text-center text-xl font-semibold mb-4 text-white">Login</h2>
+  
+          <form method="POST" onSubmit={handleSubmit}>
+            {error && (<p className="err-message">{error}</p>)}
+            <label htmlFor="email">Email</label>
+            <input id="email" name="email" type="text" placeholder="Enter your email id" onChange={handleChange} value={formData.email} required />
+            <label htmlFor="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter your password" onChange={handleChange} value={formData.password} required />
+            <button type="submit" className="login-submit" disabled={isLoading}>Submit</button>
+          </form>
+          <p>Not a user yet ?<a href="">Register.</a></p>
         </div>
-    );
+      </div>
+      )
 }
-
 export default Login;

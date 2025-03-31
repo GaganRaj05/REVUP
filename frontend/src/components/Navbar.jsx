@@ -1,61 +1,27 @@
-import React, { useState } from 'react';
-import '../assets/styles/postform.css';
-import Login from "./login";
-import "../assets/styles/login.css"
-import {Logout} from "../services/auth"
-import Registration from './registration';
-import { useNavigate } from 'react-router-dom';
-const Navbar = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isRegisterPopUp,setIsRegisterPopUp] = useState(false);
-  const navigate = useNavigate();
-  const handleLogoutClick = async(e)=> {
-    e.preventDefault();
-    const response = await Logout();
+import Logo from "../assets/logo.png";
+import SearchBar from "./searchBar";
+import Login from "./login"
+import { useState } from "react";
 
-    if(response.error) alert(response.error);
-    setIsLoggedIn(false);
-    alert("logout successfull");
-  }
-  const handleRegistrationClick = (e) => {
-    e.preventDefault();
-    setIsLoginOpen(false);
-    setIsRegisterPopUp(true);
-
-  }
-
+function NavBar() {
+  const [isLoginOpen, setIsLoginOpen] = useState("");
   return (
-    <div className='navbar-container'>
-      <nav className="navbar">
-        <div className="navbar-left">
-          <span className="logo">REVUP</span>
-        </div>
-        <div className="navbar-right">
-
-        <div className='register'>
-          <a href="" onClick={()=>{navigate("/upload-vehicle")}}>Add vehicle</a>
-        </div>
-        <div className='register'>
-          <a href="">Add event</a>
-        </div>
-        <div className='register'>
-          <a href="">Post something</a>
-        </div>
-        {isLoggedIn ? (
-            <button className="logout-button" onClick={handleLogoutClick}>Logout</button>
-          ) : (
-            <button style={{backgroundColor:"white",color:"black"}} className="login-button" onClick={() => setIsLoginOpen(true)}>Login</button>
-          )}
-                  <div className='register'>
-          <a href="" onClick={handleRegistrationClick}>Sign up</a>
-        </div>
-        </div>
+    <div className="nav-bar-container">
+      <nav className="navBar">
+        <li>
+          <img className="logo" src={Logo} alt="Revvup" />
+        </li>
+        <li> 
+          <SearchBar/>
+        </li>
+        <li>
+          <button className="login-btn" onClick={()=>{setIsLoginOpen(true)}}>
+            Login
+          </button>
+        </li>
       </nav>
-      {isRegisterPopUp && <Registration onClose={()=>setIsRegisterPopUp(false)} popupL={()=>{setIsRegisterPopUp(false);setIsLoginOpen(true)}}  />}
-      {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} onLogin = {()=>setIsLoggedIn(true)} popupR={()=>{setIsLoginOpen(false);setIsRegisterPopUp(true)}} />}
+      {isLoginOpen && (<Login onClose ={()=>setIsLoginOpen(false)}/>)}
     </div>
   );
-};
-
-export default Navbar;
+}
+export default NavBar;
