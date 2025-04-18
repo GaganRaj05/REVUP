@@ -7,8 +7,11 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth")
 const featureRoutes = require("./routes/features");
 const cors = require('cors');
+const socketIo = require("socket.io");
 const path = require('path');
+const http = require('http');
 const app = express()
+
 
 app.use(express.json())
 app.use(cookieParser())
@@ -20,17 +23,25 @@ app.use(cors({
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type, Authorization"
 }));
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
-    setHeaders: (res) => {
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); 
-    }
-}));
-
 app.use("/app/auth",authRoutes);
 app.use("/app/features",featureRoutes);
 
-app.listen(process.env.PORT, ()=>console.log("Server started at PORT:"+process.env.PORT));
+const server = http.createServer(app)
+const io = socketIo(server);
+io.on("connection",(socket)=> {
+
+    socket.on("chat_message",(msg)=> {
+        console.log("message recieved",msg);
+        console.log(socket.id)
+        socket.broadcast.emit(msg);
+    })
+    socket.on("disconnect",()=> {
+        console.log("CLient disconnected",socket.id);
+    })
+})
+
+
+server.listen(process.env.PORT, ()=>console.log("Server started at PORT:"+process.env.PORT));
 
 connectToDB(process.env.MONGODB_URL);
 

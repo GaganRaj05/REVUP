@@ -45,8 +45,9 @@ function Login({onClose}) {
             <label htmlFor="password">Password</label>
             <input id="password" name="password" type="password" placeholder="Enter your password" onChange={handleChange} value={formData.password} required />
             <button type="submit" className="login-submit" disabled={isLoading}>Submit</button>
+          <p>Not a user yet ?<a  ><button style={{border:"0px",color:"gold",fontSize:"20px",backgroundColor:"#0d1114",cursor:"pointer"}} onClick={()=>onClose()}>Register</button></a></p>
+
           </form>
-          <p>Not a user yet ?<a href="">Register.</a></p>
         </div>
       </div>
       )

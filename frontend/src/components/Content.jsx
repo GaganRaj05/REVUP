@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import Slider from "react-slick"; // Import react-slick
+import Slider from "react-slick"; 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { TbArrowBigUp, TbArrowBigDown } from "react-icons/tb";
 import { FaRegShareSquare } from "react-icons/fa";
 import Get_Posts from "../services/posts";
 import Like from "../services/like";
+
 
 function Content({type}) {
   const [posts, setPosts] = useState([]);
@@ -14,6 +15,7 @@ function Content({type}) {
   useEffect(() => {
     async function getPosts() {
       const response = await Get_Posts();
+      console.log(type)
       if (response.error) {
         setError(response.error === "Failed to fetch" ? "Some error occurred, please try again later" : response.error);
         return;
@@ -41,6 +43,7 @@ function Content({type}) {
     slidesToScroll: 1,
     autoplay: false,
     arrows: true,
+    className:"custom-slider"
   };
 
   return (
@@ -54,7 +57,7 @@ function Content({type}) {
               <div className="user-logo-container">
                 <img className="userLogo" src={post.user_id.image} alt="User" />
               </div>
-              <p>{post.user_id._doc.name || "Unknown User"}</p>
+              <p>{post.user_id.name || "Unknown User"}</p>
             </div>
             <div className="post-follow">
               <button>Follow</button>

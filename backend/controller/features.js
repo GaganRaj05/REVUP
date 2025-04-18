@@ -1,15 +1,34 @@
 const Posts = require("../models/Posts");
+const cloudinary = require("../config/cloudinaryConfig");
+const bufferToStream = require("../utils/bufferToStream");
 
 async function handlePostUploads(req, res) {
     try {
         const user_id = req.user_id;
         const {caption} = req.body;
+        const imageFiles = req.files.image;
         
-        const imagePath = req.files ? req.files.map(file=>file.path.replace(/\\/g,'/').replace(/^uploads\//,"")):[];
-        
+
+        const uploadPromises = await imageFiles.map(async (imageFile)=> {
+            return new Promise((resolve, reject)=> {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder:"REVUP/posts/images",
+                        resource_type:"auto"
+                    },
+                    (err,result)=> {
+                        if(err) reject(err);
+                        else resolve(result);
+                    }
+                );
+                bufferToStream(imageFile.buffer).pipe(stream);
+            })
+        })
+        const uploadResults = await Promise.all(uploadPromises);
+        const imageUrls = uploadResults.map(result => result.secure_url);
         await Posts.create({
             user_id: user_id,
-            image: imagePath,
+            image: imageUrls,
             caption: caption,
         });
 
@@ -24,16 +43,8 @@ async function handlePostUploads(req, res) {
 async function handleGettingPosts(req, res) {
     try {
         const result = await Posts.find().populate({ path: "user_id", select: "name image" });
-        const formattedResults = result.map(post => ({
-            ...post._doc,
-            user_id: {
-                ...post._doc.user_id,
-                image: `${req.protocol}://${req.get("host")}/uploads/${post.user_id.image}`
-            },
-            image: post.image.map(img => `${req.protocol}://${req.get("host")}/uploads/${img}`)
-        }));
 
-        return res.status(200).json(formattedResults);
+        return res.status(200).json(result);
     } catch (err) {
         console.error(err.message);
         return res.status(500).json("Some error occurred, please try again later.");

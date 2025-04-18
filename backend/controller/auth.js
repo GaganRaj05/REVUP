@@ -1,10 +1,13 @@
 const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require("jsonwebtoken")
+const cloudinary = require('../config/cloudinaryConfig');
+const bufferToStream = require("../utils/bufferToStream");
 
 
 async function handleLogin(req, res) {
     try {
+        console.log("working")
         const {email, password} = req.body;
         const user = await User.findOne({email_id:email})
         if(!user) return res.status(400).json("Email not found in the db, please register");
@@ -27,7 +30,7 @@ async function handleLogin(req, res) {
 
     }
     catch(err) {
-        console.log(err.message);
+        console.log(err);
         return res.status(501).json("Internal server error")
     }
 }
@@ -45,13 +48,30 @@ async function handleRegistration(req, res) {
         if(nameExists) return res.status(401).json("Username taken please choose another username");
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt);
-        const imagePath = req.file? req.file.path.replace(/\\/g,"/").replace(/^uploads\//,""):"default.jpg";
+        const imageFiles = req.files.image;
+        const uploadImage = imageFiles.map(async (imageFile)=> {
+            return new Promise((resolve, reject)=> {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder:"REVUP/user_images/",
+                        resource_type:"image"
+                    },
+                    (err,result)=> {
+                        if(err) reject(err);
+                        else resolve(result);
+                    }
+                )
+                bufferToStream(imageFile.buffer).pipe(stream);
+            });
+        })
+        const uploadResults = await Promise.all(uploadImage);
+        const imageUrls = await uploadResults.map(result=>result.secure_url);
         await User.create({
             name:name,
             phone_number:phone,
             email_id:email,
             password:hashedPassword,
-            image:imagePath
+            image:imageUrls
         })
 
         return res.status(201).json("account created successfully")

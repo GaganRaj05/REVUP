@@ -4,8 +4,11 @@ import SideBar from "../components/sideBar";
 import Content from "../components/Content";
 import CommunityDisplay from "../components/Community_Display";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 function Home(){
     const [contentType,setContentType] = useState("");
+    const {user} = useAuth();
+    console.log(user);
     return (
         <div>
             <NavBar/>

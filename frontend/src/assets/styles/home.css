@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
 body {
     background-color: #0d1114;
@@ -196,6 +197,15 @@ a:hover {
 .login-btn:hover {
   background-color: #2a3235;
 }
+.modal-content form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.modal-content form input{
+  width: 100%;
+}
 
 .side-bar-container {
   position: sticky;
@@ -215,7 +225,7 @@ a:hover {
   margin-right: 200px;
 }
 
-.side-bar-controls button {
+.side-bar-controls-btn {
   width: 85%;
   height: 50px;
   margin-left: 10px;
@@ -227,8 +237,27 @@ a:hover {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
-.side-bar-controls button:hover {
+.side-bar-controls-btn:hover {
   background-color: #2a3235;
+  border: 1px solid white;
+}
+.logout-btn {
+  width: 85%;
+  height: 50px;
+  margin-left: 10px;
+  font-family: "Bytesized", sans-serif;
+  background-color: #0d1114;
+  border: 1px solid #851212;
+  color: white;
+  font-size: 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+.logout-btn:hover {
+  background-color: #851212;
+  border: 1px solid white;
 }
 
 .sidebar-toggle-btn {
@@ -252,6 +281,8 @@ a:hover {
 .side-bar-settings-container {
   display: flex;
   flex-direction: column;
+  font-family: "Source Code Pro", monospace;
+
 }
 .side-bar-controls-container {
   height: 100%;
@@ -277,7 +308,7 @@ a:hover {
 .community-display-box {
   background-color: #000000;
   color: white;
-  font-family: "Bytesized", sans-serif;
+  font-family: "Source Code Pro", monospace;
   height: auto;
   width: 310px;
   border-radius: 8px;
@@ -392,7 +423,7 @@ a:hover {
 .post-caption p {
   padding-top: 10px;
   padding-left: 10px;
-  font-family: "Bytesized","sans-serif";
+  font-family: "Source Code Pro", monospace;
   font-size: 30px;
   color: white;
 }
@@ -401,6 +432,9 @@ a:hover {
   width: 100%;
   height: 500px;
   border-radius: 8px;
+}
+.custom-slider div img {
+  z-index: 0;
 }
 .post-image img {
   width: 700px;
@@ -442,7 +476,7 @@ a:hover {
   border-radius: 2px;
   padding-top: 2px;
   font-size: 18px;
-  font-family: "Bytesized",sans-serif;
+  font-family: "Source Code Pro", monospace;
 }
 .post-like-btns button:active {
   background-color: #1f2427;
