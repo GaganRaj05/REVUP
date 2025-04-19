@@ -6,7 +6,7 @@ import CommunityDisplay from "../components/Community_Display";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 function Home(){
-    const [contentType,setContentType] = useState("");
+    const [contentType,setContentType] = useState("Posts");
     const {user} = useAuth();
     console.log(user);
     return (

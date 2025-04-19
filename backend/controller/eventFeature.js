@@ -1,20 +1,36 @@
 const Events = require("../models/Events");
-
+const cloudinary = require("../config/cloudinaryConfig");
+const bufferToStream = require('../utils/bufferToStream');
 async function uploadEvent(req,res) {
     try {
         const user_id = req.user_id;
         const {name,event_type,description,venue, date,location,time} = req.body;
 
-        const imagePaths = req.files ? req.files.map(file => file.path.replace(/\\/g, "/").replace(/^uploads\//, "")) : [];
-
+        const imageFiles = req.files.image;
+        const uploadImage = imageFiles.map((image)=> {
+            return new Promise( (resolve, reject)=> {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder:"REVUP/events/images",
+                        resource_type:'auto',
+                    },
+                    (err, result)=> {
+                        if(err) reject(err);
+                        else resolve(result);
+                    }
+                );
+                bufferToStream(image.buffer).pipe(stream);
+            })
+        });
+        const uploadResult = await Promise.all(uploadImage);
+        const imageUrls = await uploadResult.map(result=>result.secure_url);
         await Events.create({
             user:user_id,
             name:name,
-            image:imagePaths,
+            image:imageUrls,
             event_type:event_type,
             description:description,
             venue:venue,
-            date:date,
             location:location,
             time:time
         });
@@ -28,12 +44,9 @@ async function uploadEvent(req,res) {
 
 async function getEvents(req, res) {
     try {
-        const result = await Events.find();
-        const formattedResults  = result.map(event=> ({
-            ...event._doc,
-            image:event.image.map(img=>`${req.protocol}://${req.get("host")}/upload/${img}`)
-        }));
-        return res.status(201).json(formattedResults);
+        const result = await Events.find().populate({path:"user",select:"name phone_number image"});
+        
+        return res.status(201).json(result);
     }
     catch(err) {
         console.log(err.message);

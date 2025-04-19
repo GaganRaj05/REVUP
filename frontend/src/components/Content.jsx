@@ -1,40 +1,72 @@
 import { useEffect, useState } from "react";
-import Slider from "react-slick"; 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { TbArrowBigUp, TbArrowBigDown } from "react-icons/tb";
-import { FaRegShareSquare } from "react-icons/fa";
 import Get_Posts from "../services/posts";
-import Like from "../services/like";
-
-
-function Content({type}) {
+import Cards from "./Cards";
+import { GetEvents } from "../services/events";
+import { RentalVehicles } from "../services/rent";
+function Content({ type }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
-
+  const [vehicles, setVehicles] = useState([]);
+  const [events, setEvents] = useState([]);
   useEffect(() => {
-    async function getPosts() {
-      const response = await Get_Posts();
-      console.log(type)
-      if (response.error) {
-        setError(response.error === "Failed to fetch" ? "Some error occurred, please try again later" : response.error);
+    console.log(type);
+    async function getData() {
+      if (type === "Posts") {
+        const response = await Get_Posts();
+        if (response.error) {
+          setError(
+            response.error === "Failed to fetch"
+              ? "Some error occured please try again later"
+              : response.error
+          );
+          return;
+        }
+        if (response.length === 0) {
+          setError("No posts found");
+          return;
+        }
+        setPosts(response);
+        return;
+      } else if (type === "Events") {
+        const response = await GetEvents();
+        if (response.error) {
+          setError(
+            response.error === "Failed to fetch"
+              ? "Some error occured please try again later"
+              : response.error
+          );
+          return;
+        }
+        if (response.length === 0) {
+          setError("No posts found");
+          return;
+        }
+        setEvents(response);
+        return;
+      } else if (type === "Rent") {
+        const response = await RentalVehicles();
+        if (response.error) {
+          setError(
+            response.error === "Failed to fetch"
+              ? "Some error occured please try again later"
+              : response.error
+          );
+          return;
+        }
+        if (response.length === 0) {
+          setError("No posts found");
+          return;
+        }
+        setVehicles(response);
         return;
       }
-      if(response.length === 0) {setError("No posts found"); return;}
-      setPosts(response);
     }
-    getPosts();
-  }, []);
 
-  const handlePostLike = async(post_id)=> {
-    const response = await Like(post_id);
-    if(response.error) {
-      setError(response.error === "Failed to fetch" ? "Some error occured please try again later":response.error);
-      return;
-    }
-    alert("liked");
+    getData();
+  }, [type]);
 
-  }
   const carouselSettings = {
     dots: true,
     infinite: true,
@@ -43,67 +75,30 @@ function Content({type}) {
     slidesToScroll: 1,
     autoplay: false,
     arrows: true,
-    className:"custom-slider"
+    className: "custom-slider",
   };
 
   return (
     <div className="Content-section">
-      { error && <p style={{color:"white",fontFamily:"sans-serif",fontSize:"30px"}} className="error-msg">{error}</p>}
-
-      {(type==="" || type==="Posts") && posts.map((post) => (
-        <div className="post-cards" key={post._id}>
-          <div className="post-user">
-            <div className="post-username">
-              <div className="user-logo-container">
-                <img className="userLogo" src={post.user_id.image} alt="User" />
-              </div>
-              <p>{post.user_id.name || "Unknown User"}</p>
-            </div>
-            <div className="post-follow">
-              <button>Follow</button>
-            </div>
-          </div>
-
-          <div className="post-caption">
-            <p>{post.caption}</p>
-          </div>
-
-          <div className="post-image">
-            {post.image.length === 1 ? (
-              <img src={post.image[0]} alt="Post" />
-            ) : (
-              <Slider {...carouselSettings}>
-                {post.image.map((img, index) => (
-                  <div key={index}>
-                    <img src={img} alt={`Post ${index}`} className="carousel-img" />
-                  </div>
-                ))}
-              </Slider>
-            )}
-          </div>
-
-          <div className="post-controls">
-            <div className="post-like-btns">
-              <button onClick={()=>handlePostLike(post._id)}><TbArrowBigUp /></button>
-              <p>{post.like_count}</p>
-              <button><TbArrowBigDown /></button>
-            </div>
-            <div>
-              <button className="share-btn">Share <FaRegShareSquare /></button>
-            </div>
-          </div>
-        </div>
-      ))}
-      {type === "Rent" && (
-        <div>
-          <p style={{color:"white"}}>RENT</p>
-        </div>
+      {error && (
+        <p
+          style={{ color: "white", fontFamily: "sans-serif", fontSize: "30px" }}
+          className="error-msg"
+        >
+          {error}
+        </p>
       )}
-      {type === "Events" && (
-        <div>
-          <p style={{color:"white"}}>events</p>
-        </div>
-      )}
+
+      {(type === "" || type === "Posts") &&
+        posts.map((post) => <Cards key={post._id} data={post} type={type} />)}
+      {type === "Events" &&
+        events.map((event) => (
+          <Cards key={event._id} data={event} type={type} />
+        ))}
+      {type === "Rent" &&
+        vehicles.map((vehicle) => (
+          <Cards key={vehicle._id} data={vehicle} type={type} />
+        ))}
     </div>
   );
 }

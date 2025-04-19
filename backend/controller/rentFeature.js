@@ -1,18 +1,37 @@
 const Vehicle = require("../models/Vehicles")
-
+const cloudinary = require("../config/cloudinaryConfig");
+const bufferToStream = require("../utils/bufferToStream");
 async function uploadVehicle(req, res) {
     try {
         const user_id = req.user_id;
         const { model_name, description, price, contact_info, address } = req.body;
 
-        const imagePaths = req.files ? req.files.map(file => file.path.replace(/\\/g, "/").replace(/^uploads\//, "")) : [];
+        const imageFiles = req.files.image;
+        console.log(imageFiles)
 
-        console.log("Files uploaded:", imagePaths);
+        const uploadImage = imageFiles.map((imageFile)=> {
+            return new Promise( (resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder:"REVUP/vehicles/images",
+                        resource_type:"auto"
+                    },
+                    (err, result) => {
+                        if(err) reject(err);
+                        else resolve(result);
+                    }
+                );
+                bufferToStream(imageFile.buffer).pipe(stream);
+            });
+        })
+        const uploadResult = await Promise.all(uploadImage);
+        const imageUrls = await uploadResult.map(result => result.secure_url);
+
 
         await Vehicle.create({
             user: user_id,
             model_name: model_name,
-            image: imagePaths,  
+            image: imageUrls,  
             description: description,
             price: price,
             contact_info: contact_info,
@@ -29,14 +48,8 @@ async function uploadVehicle(req, res) {
 
 const getRentalVehicles = async (req, res) => {
     try {
-        const vehicles = await Vehicle.find();
-
-        const formattedVehicles = vehicles.map(vehicle => ({
-            ...vehicle._doc,
-            image: vehicle.image.map(img => `${req.protocol}://${req.get("host")}/uploads/${img}`)
-        }));
-
-        return res.status(200).json(formattedVehicles);
+        const vehicles = await Vehicle.find().populate({path:"user",select:"name image"});
+        return res.status(200).json(vehicles);
     } catch (err) {
         console.log(err.message);
         return res.status(500).json({ error: "Some error occurred, please try again later" });
