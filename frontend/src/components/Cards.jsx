@@ -4,8 +4,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { TbArrowBigUp, TbArrowBigDown } from "react-icons/tb";
 import { FaRegShareSquare } from "react-icons/fa";
 import Like from "../services/like";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../context/AuthContext"
 
 export default function Cards({ data, type }) {
+  const navigate = useNavigate();
+  const {user} = useAuth();
   const handledataLike = async (data_id) => {
     const response = await Like(data_id);
     if (response.error) {
@@ -18,6 +22,36 @@ export default function Cards({ data, type }) {
     }
     alert("liked");
   };
+  const handleKnowMoreClick = () => {
+    if(!user) {
+      navigate("/login");
+    }
+    else if(type === "Events") {
+      const formattedData = {
+        id:data._id,
+        name:data.name,
+        image:data.image,
+        type:data.event_type,
+        description:data.description,
+        venue:data.venue,
+        date:data.date,
+        contact:data.user.phone_number
+      };
+      navigate("/events-info", {state:{type, formattedData}});
+    }
+    else if(type === "Rent") {
+        const formattedData = {
+          id:data._id,
+          name:data.model_name,
+          image:data.image,
+          description:data.description,
+          price:data.price,
+          venue:data.address,
+          contact:data.contact_info
+        }
+        navigate("/events-info", {state:{type, formattedData}});
+    }
+  }
 
   const carouselSettings = {
     dots: true,
@@ -107,7 +141,7 @@ export default function Cards({ data, type }) {
       )}
       {type === "Events" && (
         <div className="post-controls">
-            <button style={{backgroundColor:"gold", color:"black"}} className="know-more-btn">Know more</button>
+            <button onClick={handleKnowMoreClick}  className="know-more-btn">Know more</button>
         <div>
           <button className="share-btn">
             Share <FaRegShareSquare />
@@ -117,7 +151,7 @@ export default function Cards({ data, type }) {
     )}
     {type === "Rent" && (
         <div className="post-controls">
-            <button style={{backgroundColor:"gold", color:"black"}} className="know-more-btn">Know more</button>
+            <button onClick={handleKnowMoreClick} className="know-more-btn">Know more</button>
         <div>
           <button className="share-btn">
             Share <FaRegShareSquare />

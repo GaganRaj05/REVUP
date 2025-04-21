@@ -500,3 +500,18 @@ a:hover {
 .post-cards:hover {
   background-color:#000000;
 }
+
+.know-more-btn {
+  height: 30px;
+  width: 120px;
+  font-size: 20px;
+  border-radius: 25px;
+  gap: 5px;
+  background-color: gold;
+  font-family: "Bytesized","sans-serif";
+  color: white;
+  border: 0px;
+}
+.know-more-btn:hover {
+  background-color: #373b3e;
+}

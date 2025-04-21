@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+.info-page-container {
+    height: 100vh;
+    width: 100%;
+    background-color: #0d1114;
+    color: white;
+    font-family: "Bytesized", sans-serif;
+}

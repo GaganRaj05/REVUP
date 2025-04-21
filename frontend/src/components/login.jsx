@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import Login_Service from "../services/login";
+import { useAuth } from "../context/AuthContext";
 function Login({onClose}) {
     const [formData, setFormData] = useState({email:"",password:""});
     const [error, setError] = useState("");
     const [isLoading,setIsLoading] = useState(false);
+    const {user,setUser} = useAuth();
     
     const handleChange = (e)=> {
         setError("");
@@ -11,7 +13,11 @@ function Login({onClose}) {
     }
 
     const handleSubmit = async(e)=> {
-        
+        if(user) {
+            alert("Already LoggedIn");
+            return;
+        }
+
     
         setIsLoading(true)
         setError("");
@@ -28,6 +34,7 @@ function Login({onClose}) {
             setError(response.error);
             return;
         }
+        setUser(response.data);
         onClose();
         alert("successfull")
     }

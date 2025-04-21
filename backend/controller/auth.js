@@ -26,7 +26,7 @@ async function handleLogin(req, res) {
         });
         console.log("Cookie Set:", res.getHeaders()["set-cookie"]);
 
-        return res.status(201).json("login successfull");
+        return res.status(201).json({msg:"Login Succesfull", data:{name:user.name, email:user.email_id}});
 
     }
     catch(err) {
@@ -99,4 +99,27 @@ async function handleLogout(req, res) {
     }
 }
 
-module.exports = {handleLogin, handleRegistration, handleLogout}
+
+const checkAuth = async (req, res)=> {
+    try {
+        const token = req.cookies.jwt;
+        if(!token) {
+            return res.status(400).json("Not logged In");
+        }
+        const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+        
+        const user = await User.findOne({_id:decoded.user_id});
+
+        return res.status(200).json({msg:"Already logged in", data:{name:user.name, email:user.email_id}})
+    }
+    catch(err) {
+        if(err.name === "TokenExpiredError") {
+            return res.status(401).json({ error: "Session expired. Please re-login." });
+        }
+      
+        console.log(err.message);
+        return res.status(501).json("Some error occured please try again later");
+    }
+}
+
+module.exports = {handleLogin, handleRegistration, handleLogout, checkAuth}
