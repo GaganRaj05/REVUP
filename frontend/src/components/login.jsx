@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import Login_Service from "../services/login";
 import { useAuth } from "../context/AuthContext";
+import {useNavigate} from "react-router-dom";
+import {  toast } from 'react-toastify';
+
 function Login({onClose}) {
     const [formData, setFormData] = useState({email:"",password:""});
-    const [error, setError] = useState("");
     const [isLoading,setIsLoading] = useState(false);
     const {user,setUser} = useAuth();
     
@@ -14,7 +16,9 @@ function Login({onClose}) {
 
     const handleSubmit = async(e)=> {
         if(user) {
-            alert("Already LoggedIn");
+            toast.success("Already Logged In")
+            onClose();
+            
             return;
         }
 
@@ -27,16 +31,12 @@ function Login({onClose}) {
             setIsLoading(false);
         }
         if(response.error) {
-            if(response.error === "Failed to fetch") {
-                setError("Some error occured please try again later");
-                return;
-            }
-            setError(response.error);
+            toast.error(response.error === "Failed to fetch" ? "Some error occured please try again later" : response.error);
             return;
         }
         setUser(response.data);
         onClose();
-        alert("successfull")
+        toast.success("Login successfull");
     }
 
     return (
@@ -46,7 +46,6 @@ function Login({onClose}) {
           <h2 className="text-center text-xl font-semibold mb-4 text-white">Login</h2>
   
           <form method="POST" onSubmit={handleSubmit}>
-            {error && (<p className="err-message">{error}</p>)}
             <label htmlFor="email">Email</label>
             <input id="email" name="email" type="text" placeholder="Enter your email id" onChange={handleChange} value={formData.email} required />
             <label htmlFor="password">Password</label>

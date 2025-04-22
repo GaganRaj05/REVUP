@@ -2,9 +2,11 @@ import Logo from "../assets/logo.png";
 import SearchBar from "./searchBar";
 import Login from "./login"
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function NavBar() {
   const [isLoginOpen, setIsLoginOpen] = useState("");
+  const {user} = useAuth();
   return (
     <div className="nav-bar-container">
       <nav className="navBar">
@@ -15,9 +17,11 @@ function NavBar() {
           <SearchBar/>
         </li>
         <li>
-          <button className="login-btn" onClick={()=>{setIsLoginOpen(true)}}>
+          {!user && 
+            <button className="login-btn" onClick={()=>{setIsLoginOpen(true)}}>
             Login
           </button>
+          }
         </li>
       </nav>
       {isLoginOpen && (<Login onClose ={()=>setIsLoginOpen(false)}/>)}
