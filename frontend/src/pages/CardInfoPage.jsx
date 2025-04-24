@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../assets/styles/infoPage.css";
 import InfoCards from "../components/InfoCard";
@@ -8,7 +7,7 @@ export default function CardInfoPage() {
     console.log(formattedData);
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate("/")
+        navigate("/");
     }
     return (
         <div className="info-page-container">

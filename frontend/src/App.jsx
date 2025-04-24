@@ -1,17 +1,16 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./components/login";
 import CardInfoPage from "./pages/CardInfoPage";
 import { ToastContainer, toast } from 'react-toastify';
-
+import ProfilePage from "./pages/ProfilePage";
 const router = createBrowserRouter([
   {
     path:"/",
     element:<Home/>
   },
   {
-    path:"/login",
-    element:<Login/>
+    path:"/user/profile",
+    element:<ProfilePage/>
   },
   {
     path:"/events-info",

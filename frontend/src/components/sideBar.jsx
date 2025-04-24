@@ -1,23 +1,41 @@
 import { useState } from "react";
 import {useAuth} from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import {  toast } from 'react-toastify';
+import Logout from "../services/logout";
+import Login from "./login";
+
 function SideBar({onSideBarClick}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isSideBarLoginOpen, setIsSideBarLoginOpen] = useState(false);
   const {user} = useAuth();
   const navigate = useNavigate();
-  const handleBtnClick = (e, btnType) => {
+  const handleBtnClick = async (e, btnType) => {
     e.preventDefault();
-    if(btnType === "Posts" || btnType === "Events" || btnType=== "Rent") {
+     if(btnType === "Posts" || btnType === "Events" || btnType=== "Rent") {
       onSideBarClick(btnType);
       return;
     }
     if(!user) {
-      console.log("working")
-      navigate("/login")
-      return;
+      setIsSideBarLoginOpen(true);
     }
-    console.log("this is user")
+    
+    else if(btnType === "Communities") {
+      toast.success("This feature is yet to be added, stay tuned!..")
+    }
+    else if(btnType === "Profile") {
+      navigate("/user/profile", {state:{user_id:user.user_id}});
+    }
+    else if(btnType === "Logout") {
+      const response = await Logout();
+      if(response.error) {
+        toast.error("Some error occured please try again later");
+        return;
+      }
+      toast.success(response);
+    }
   }
+  
 
   return (
     <div className={`side-bar-container ${isCollapsed ? "collapsed" : ""}`}>
@@ -39,14 +57,13 @@ function SideBar({onSideBarClick}) {
           </div>
 
           <div className="side-bar-settings-container">
-            <button className="side-bar-controls-btn" onClick={(e)=> handleBtnClick(e,"Settings")}>Settings</button>
             <button className="logout-btn" onClick={(e)=> handleBtnClick(e,"Settings")}>Logout</button>
           </div>
         </div>
       )}
   
 
-
+      {isSideBarLoginOpen && <Login onClose={()=>setIsSideBarLoginOpen(false)}></Login>}
       
     </div>
     

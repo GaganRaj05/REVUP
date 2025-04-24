@@ -29,10 +29,10 @@ const userSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"users",
     }],
-    followers_count: {
-        type:Number,
-        default:0
-    }
+    following: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"users"
+    }],
 })
 
 const User = mongoose.model("users",userSchema);

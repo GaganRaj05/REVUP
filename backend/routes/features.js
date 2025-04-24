@@ -4,6 +4,7 @@ const {handlePostUploads,handleGettingPosts,handlePostLike} = require("../contro
 const {uploadVehicle,getRentalVehicles} = require("../controller/rentFeature")
 const {getEvents, uploadEvent} = require("../controller/eventFeature")
 const upload = require("../config/multerConfig");
+const getProfile = require("../controller/profiles");
 const handleMulterError = require("../middlewares/handleMulterErrors");
 const router = express.Router()
 
@@ -14,5 +15,6 @@ router.post("/upload-vehicle",checkAuth,upload,handleMulterError,uploadVehicle);
 router.get("/vehicles",getRentalVehicles);
 router.post("/upload-event",checkAuth,upload,handleMulterError,uploadEvent);
 router.get("/events",getEvents);
+router.get("/profile-info", getProfile);
 
 module.exports = router

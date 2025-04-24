@@ -10,7 +10,6 @@ function Login({onClose}) {
     const {user,setUser} = useAuth();
     
     const handleChange = (e)=> {
-        setError("");
         setFormData({...formData,[e.target.name]:e.target.value});
     }
 
@@ -20,11 +19,8 @@ function Login({onClose}) {
             onClose();
             
             return;
-        }
-
-    
+        }    
         setIsLoading(true)
-        setError("");
         e.preventDefault();
         const response = await Login_Service(formData);
         if(response) {

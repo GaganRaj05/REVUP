@@ -6,11 +6,16 @@ import { FaRegShareSquare } from "react-icons/fa";
 import Like from "../services/like";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../context/AuthContext"
+import {  toast } from 'react-toastify';
 
 export default function Cards({ data, type }) {
   const navigate = useNavigate();
   const {user} = useAuth();
   const handledataLike = async (data_id) => {
+    if(!user) {
+      toast.error("Login to like the posts");
+      return;
+    }
     const response = await Like(data_id);
     if (response.error) {
       setError(
@@ -124,13 +129,11 @@ export default function Cards({ data, type }) {
       {type === "Posts" && (
         <div className="post-controls">
           <div className="post-like-btns">
-            <button onClick={() => handlePostLike(data._id)}>
+            <button onClick={() => handledataLike(data._id)}>
               <TbArrowBigUp />
             </button>
             <p>{data.like_count}</p>
-            <button>
-              <TbArrowBigDown />
-            </button>
+            
           </div>
           <div>
             <button className="share-btn">

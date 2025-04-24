@@ -26,7 +26,7 @@ async function handleLogin(req, res) {
         });
         console.log("Cookie Set:", res.getHeaders()["set-cookie"]);
 
-        return res.status(201).json({msg:"Login Succesfull", data:{name:user.name, email:user.email_id, image:user.image}});
+        return res.status(201).json({msg:"Login Succesfull", data:{user_id:user._id,name:user.name, email:user.email_id, image:user.image}});
 
     }
     catch(err) {
@@ -110,7 +110,7 @@ const checkAuth = async (req, res)=> {
         
         const user = await User.findOne({_id:decoded.user_id});
 
-        return res.status(200).json({msg:"Already logged in", data:{name:user.name, email:user.email_id, image:user.image}});
+        return res.status(200).json({msg:"Already logged in", data:{user_id:user._id,name:user.name, email:user.email_id, image:user.image}});
     }
     catch(err) {
         if(err.name === "TokenExpiredError") {
