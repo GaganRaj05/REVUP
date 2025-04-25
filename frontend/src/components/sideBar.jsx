@@ -8,8 +8,9 @@ import Login from "./login";
 function SideBar({onSideBarClick}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isSideBarLoginOpen, setIsSideBarLoginOpen] = useState(false);
-  const {user} = useAuth();
+  const {user, setUser} = useAuth();
   const navigate = useNavigate();
+
   const handleBtnClick = async (e, btnType) => {
     e.preventDefault();
      if(btnType === "Posts" || btnType === "Events" || btnType=== "Rent") {
@@ -36,6 +37,17 @@ function SideBar({onSideBarClick}) {
     }
   }
   
+  const handleLogoutClick = async(e)=> {
+    e.preventDefault();
+    const response = await Logout();
+    if(response.error) {
+      toast.error("Some error occured please try again later");
+      return;
+    }
+    setUser(null);
+    toast.success("Logout successfull");
+
+  }
 
   return (
     <div className={`side-bar-container ${isCollapsed ? "collapsed" : ""}`}>
@@ -57,7 +69,10 @@ function SideBar({onSideBarClick}) {
           </div>
 
           <div className="side-bar-settings-container">
-            <button className="logout-btn" onClick={(e)=> handleBtnClick(e,"Settings")}>Logout</button>
+            {user && 
+                 <button className="logout-btn" onClick={(e)=> handleLogoutClick(e)}>Logout</button>
+
+            }
           </div>
         </div>
       )}

@@ -2,7 +2,6 @@ import Slider from "react-slick";
 
 export default function InfoCards({ type, data }) {
   const carouselSettings = {
-    dots: true,
     infinite: true,
     speed: 600,
     slidesToShow: 1,

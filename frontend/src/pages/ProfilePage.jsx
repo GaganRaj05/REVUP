@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import DeleteForms from "../components/DeleteForm";
 
 export default function ProfilePage() {
   const [deleteData, setDeleteData] = useState({ type: null, item: null });
@@ -47,12 +48,13 @@ export default function ProfilePage() {
       setUserInfo(response);
     }
     fetchProfile();
-    console.log(userInfo);
   }, []);
-  console.log(user_id);
+
+  
   const handleBtnClick = (e, type) => {
     e.preventDefault();
     setFormType(type);
+    console.log(type)
     setIsFormOpen(true);
   };
   const handleCtrlBtnClick = (e, type) => {
@@ -68,9 +70,6 @@ export default function ProfilePage() {
         <div className="profile-info">
           <div className="profile-username">
             <h2>{userInfo?.user?.name}</h2>
-            <button onClick={(e) => handleBtnClick(e, "Edit")}>
-              Edit Profile
-            </button>
           </div>
           <div className="profile-stats">
             <span>
@@ -206,10 +205,19 @@ export default function ProfilePage() {
         <UploadForms type={formType} onClose={() => setIsFormOpen(false)} />
       )}
       {deleteData.item && (
-        <UploadForms
-          type={`Delete-${deleteData.type}`}
+        <DeleteForms
+          formType={`${deleteData.type}`}
           item={deleteData.item}
           onClose={() => setDeleteData({ type: null, item: null })}
+          onDeleteSuccess={(deletedItemId) => {
+            setUserInfo((prev) => ({
+              ...prev,
+              [deleteData.type.toLowerCase()]: prev[deleteData.type.toLowerCase()].filter(
+                (item) => item._id !== deletedItemId
+              ),
+            }));
+          }}
+        
         />
       )}
     </div>

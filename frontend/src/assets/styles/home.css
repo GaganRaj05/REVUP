@@ -107,6 +107,7 @@ body, * {
     color: white;
     font-family: "Bytesized", sans-serif;
     font-size: 32px;
+    overflow-y: auto;
 }
   
   .close-btn {
@@ -390,7 +391,7 @@ a:hover {
   border: 0;
   background-color: #125bca;
   border-radius: 25px;
-  width: 50px;
+  width: 70px;
   color: white;
   margin-top: 5px;
   font-family: "Bytesized","sans-serif";

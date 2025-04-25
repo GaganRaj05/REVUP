@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 import {  toast } from 'react-toastify';
 
-function Login({onClose}) {
+function Login({onClose, onRegisterClick}) {
     const [formData, setFormData] = useState({email:"",password:""});
     const [isLoading,setIsLoading] = useState(false);
     const {user,setUser} = useAuth();
@@ -47,7 +47,7 @@ function Login({onClose}) {
             <label htmlFor="password">Password</label>
             <input id="password" name="password" type="password" placeholder="Enter your password" onChange={handleChange} value={formData.password} required />
             <button type="submit" className="login-submit" disabled={isLoading}>Submit</button>
-          <p>Not a user yet ?<a  ><button style={{border:"0px",color:"gold",fontSize:"20px",backgroundColor:"#0d1114",cursor:"pointer"}} onClick={()=>onClose()}>Register</button></a></p>
+          <p>Not a user yet ?<a  ><button style={{border:"0px",color:"gold",fontSize:"20px",backgroundColor:"#0d1114",cursor:"pointer"}} onClick={()=>onRegisterClick()}>Register</button></a></p>
 
           </form>
         </div>

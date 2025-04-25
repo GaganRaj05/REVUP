@@ -3,9 +3,11 @@ import SearchBar from "./searchBar";
 import Login from "./login"
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import SignUp from "./signup";
 
 function NavBar() {
-  const [isLoginOpen, setIsLoginOpen] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const {user} = useAuth();
   return (
     <div className="nav-bar-container">
@@ -24,7 +26,8 @@ function NavBar() {
           }
         </li>
       </nav>
-      {isLoginOpen && (<Login onClose ={()=>setIsLoginOpen(false)}/>)}
+      {isLoginOpen && (<Login onClose ={()=>setIsLoginOpen(false)} onRegisterClick={()=>{setIsLoginOpen(false); setIsRegisterOpen(true)}}/>)}
+      {isRegisterOpen && (<SignUp onClose={()=>setIsRegisterOpen(false)} onLoginClick={()=>{setIsRegisterOpen(false);setIsLoginOpen(true)}} />)}
     </div>
   );
 }

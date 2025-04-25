@@ -56,4 +56,16 @@ const getRentalVehicles = async (req, res) => {
     }
 };
 
-module.exports = {uploadVehicle,getRentalVehicles};
+const handleDeletingVehicles = async (req, res)=> {
+    try {
+        const vehicle_id = req.query.vehicle_id;
+        await Vehicle.findOneAndDelete({_id:vehicle_id});
+        return res.status(200).json("Vehicle Deleted successfully");
+    }
+    catch(err) {
+        console.log(err.message);
+        return res.status(500).json("Some error occured please try again later");
+    }
+}
+
+module.exports = {uploadVehicle,getRentalVehicles, handleDeletingVehicles};

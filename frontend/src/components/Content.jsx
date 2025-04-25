@@ -13,6 +13,7 @@ function Content({ type }) {
   useEffect(() => {
     console.log(type);
     async function getData() {
+      setError("")
       if (type === "Posts") {
         const response = await Get_Posts();
         if (response.error) {
@@ -40,7 +41,7 @@ function Content({ type }) {
           return;
         }
         if (response.length === 0) {
-          setError("No posts found");
+          setError("No Events found");
           return;
         }
         setEvents(response);
@@ -56,7 +57,7 @@ function Content({ type }) {
           return;
         }
         if (response.length === 0) {
-          setError("No posts found");
+          setError("No rental vehicles found at the moment");
           return;
         }
         setVehicles(response);

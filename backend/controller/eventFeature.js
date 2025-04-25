@@ -32,7 +32,8 @@ async function uploadEvent(req,res) {
             description:description,
             venue:venue,
             location:location,
-            time:time
+            time:time,
+            date
         });
         return res.status(201).json("Event uploaded");
     }
@@ -40,6 +41,19 @@ async function uploadEvent(req,res) {
         console.log(err.message);
         return res.status(501).json("Some error occured please try again later");
     }
+}
+
+async function handleDeletingEvents(req, res) {
+    try {
+        const event_id = req.query.event_id;
+        await Events.findOneAndDelete({_id:event_id});
+        return res.status(200).json("Event deleted successfully");
+    }
+    catch(err) {
+        console.log(err.message);
+        return res.status(501).json("Some error occured please try again later");
+    }
+
 }
 
 async function getEvents(req, res) {
@@ -54,4 +68,4 @@ async function getEvents(req, res) {
     }
 }
 
-module.exports = {getEvents,uploadEvent};
+module.exports = {getEvents,uploadEvent, handleDeletingEvents};

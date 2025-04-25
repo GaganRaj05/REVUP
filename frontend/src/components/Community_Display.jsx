@@ -15,7 +15,7 @@ function CommunityDisplay() {
         <p>Popular Communties</p>
         <button className="community-display-box-btn"></button>
         <button className="community-display-box-btn"></button>
-        <button className="community-display-box-btn"></button>
+        <button className="community-display-box-btn" style={{color:"white"}}>Feature coming soon</button>
         <button className="community-display-box-btn"></button>
         <button className="community-display-box-btn"></button>
         {seeMoreCommunities && (
